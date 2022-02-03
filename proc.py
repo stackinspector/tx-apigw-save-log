@@ -1,8 +1,9 @@
 from datetime import date, datetime, timedelta
 import lzma
+from api import get_log
 
-def proc(client, service_id, date_str):
-    dt = datetime.combine(date.today(), datetime.min.time()) if date_str is None else (datetime.strptime(date_str, '%Y-%m-%d') + timedelta(days=1))
+def proc(apigw_client, service_id, date_str):
+    dt = datetime.combine(date.today(), datetime.min.time()) if date_str is None else (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1))
     hour = 23
     logs = []
 
@@ -16,8 +17,8 @@ def proc(client, service_id, date_str):
         print("hour[{}]: {} to {}".format(hour, start, end))
 
         while not stop:
-            print("req[{}]: context='{}'".format(count, context))
-            log, context = client.get_log(start, end, service_id, context)
+            print("req[{}]: context={}".format(count, context))
+            log, context = get_log(apigw_client, start, end, service_id, context)
             logs.extend(log)
             count += 1
             stop = context == ""
