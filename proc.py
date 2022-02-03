@@ -3,7 +3,8 @@ import lzma
 from api import get_log
 
 def proc(apigw_client, service_id, date_str):
-    dt = datetime.combine(date.today(), datetime.min.time()) if date_str is None else (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1))
+    dt = datetime.combine(date.today(), datetime.min.time()) if date_str is None else (
+        datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1))
     hour = 23
     logs = []
 
@@ -29,7 +30,7 @@ def proc(apigw_client, service_id, date_str):
     logs.reverse()
     logs.append("")
 
-    log_bytes = bytes("\n".join(logs), encoding = "utf8")
+    log_bytes = bytes("\n".join(logs), encoding="utf8")
     log_xz = lzma.compress(log_bytes, preset=lzma.PRESET_EXTREME)
 
     filename = "{}-{}.xz".format(dt.strftime("%Y%m%d"), service_id)

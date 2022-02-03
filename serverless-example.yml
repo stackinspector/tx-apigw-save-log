@@ -1,0 +1,24 @@
+component: scf
+name: apigw-save-log
+inputs:
+  src: ./
+  description: Collect logs of API gateway service of Tencent Cloud.
+  handler: scf.main_handler
+  runtime: Python3.6
+  namespace: default
+  region: ap-shanghai
+  memorySize: 128
+  timeout: 900
+  environment:
+    - key: REGION
+      value: target apigw and bucket region
+    - key: SERVICE_ID
+      value: target apigw service id
+    - key: BUCKET
+      value: target bucket name
+    - key: PATH
+      value: target bucket directory
+  triggers:
+    - type: timer
+      cronExpression: 0 0 1 * * * *
+      enable: true
