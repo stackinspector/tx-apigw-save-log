@@ -5,16 +5,18 @@ from tencentcloud.apigateway.v20180808 import models
 from tencentcloud.apigateway.v20180808.apigateway_client import ApigatewayClient
 from qcloud_cos import CosConfig, CosS3Client
 
-def get_apigw_client(secret_id, secret_key, region):
-    cred = credential.Credential(secret_id, secret_key)
+def get_apigw_client(region, access):
+    secret_id, secret_key, token = access
+    cred = credential.Credential(secret_id, secret_key, token)
     http_profile = HttpProfile()
     http_profile.endpoint = "apigateway.tencentcloudapi.com"
     client_profile = ClientProfile()
     client_profile.http_profile = http_profile
     return ApigatewayClient(cred, region, client_profile)
 
-def get_cos_client(secret_id, secret_key, region):
-    cos_config = CosConfig(SecretId=secret_id, SecretKey=secret_key, Region=region)
+def get_cos_client(region, access):
+    secret_id, secret_key, token = access
+    cos_config = CosConfig(SecretId=secret_id, SecretKey=secret_key, Token=token, Region=region)
     return CosS3Client(cos_config)
 
 def get_log(client, start, end, service_id, context):

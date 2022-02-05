@@ -17,10 +17,13 @@ service_id = args.service_id
 path = args.path
 bucket = args.bucket
 date = args.date
-secret_id = os.environ.get("TENCENTCLOUD_SECRETID")
-secret_key = os.environ.get("TENCENTCLOUD_SECRETKEY")
+access = (
+    os.environ.get("TENCENTCLOUD_SECRETID"),
+    os.environ.get("TENCENTCLOUD_SECRETKEY"),
+    None,
+)
 
-apigw_client = get_apigw_client(secret_id, secret_key, region)
+apigw_client = get_apigw_client(region, access)
 filename, data = proc(apigw_client, service_id, date)
 full_path = os.path.join(path, filename)
 
@@ -28,5 +31,5 @@ if bucket is None:
     with open(full_path, "xb") as file:
         file.write(data)
 else:
-    cos_client = get_cos_client(secret_id, secret_key, region)
+    cos_client = get_cos_client(region, access)
     upload_file(cos_client, bucket, full_path, data)
