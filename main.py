@@ -4,12 +4,12 @@ import argparse
 from api import get_apigw_client, get_cos_client, upload_file
 from proc import proc
 
-arg_parser = argparse.ArgumentParser(description="Collect logs of API gateway service of Tencent Cloud.")
-arg_parser.add_argument("-r", "--region", required=True, type=str)
-arg_parser.add_argument("-s", "--service-id", required=True, type=str)
-arg_parser.add_argument("-p", "--path", required=True, type=str)
-arg_parser.add_argument("-b", "--bucket", type=str)
-arg_parser.add_argument("-d", "--date", type=str, help="%Y-%m-%d")
+arg_parser = argparse.ArgumentParser(description="以天为单位保存腾讯云API网关日志。可选上传到腾讯云COS。")
+arg_parser.add_argument("-r", "--region", required=True, type=str, help="目标API网关和（如上传到COS）bucket的所在区域")
+arg_parser.add_argument("-s", "--service-id", required=True, type=str, help="目标API网关的service id")
+arg_parser.add_argument("-p", "--path", required=True, type=str, help="保存日志的路径（本地路径或bucket路径）")
+arg_parser.add_argument("-b", "--bucket", type=str, help="（如上传到COS）上传到bucket的名称")
+arg_parser.add_argument("-d", "--date", type=str, help="（如要指定日期）要保存哪一天的日志，日期格式为Y-m-d")
 args = arg_parser.parse_args()
 
 region = args.region
