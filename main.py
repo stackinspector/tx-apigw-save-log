@@ -1,5 +1,4 @@
 import os
-import sys
 import argparse
 from api import get_apigw_client, get_cos_client, upload_file
 from proc import proc
